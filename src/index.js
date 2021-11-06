@@ -2,37 +2,39 @@ import './sass/main.scss';
 import API from './js/fetchCountries';
 import REFS from './js/refs';
 import { debounce } from 'lodash';
-import { error, Stack } from '@pnotify/core';
-// import '@pnotify/core/dist/BrightTheme.css';
-import countyList from './templates/countyList.hbs';
-import county from './templates/country.hbs';
+import '@pnotify/core/dist/BrightTheme.css';
+const { error } = require('@pnotify/core');
+import countryList from './templates/countryList.hbs';
+import country from './templates/country.hbs';
 const refs = REFS();
 
-refs.input.addEventListener('input', debounce(onSearch, 500))
+refs.input.addEventListener('input', debounce(onSearch, 1000))
 
 function onSearch(e) {
     e.preventDefault();
     const searchQuery = e.target.value
-    // hideCountryList()
+    hideCountryList()
 
     API.fetchCountries(searchQuery)
         .then(resultSearch)
         .catch(error => {
-            console.log(nu - takoe);
+            console.log(error);
         });
 }
 
 function resultSearch(searchList) {
     if (searchList.length > 10) {
         error({
-            text: 'too many matches ${searchList.length}.Enter more letters!',
-            delay: 250,
+            text: 'too many matches searchList.length.Enter more letters!',
+            delay: 2000,
+            addClass: 'wrong',
         });
-    } else if (2 <= searchList.length <= 10) {
-        renderMarkup(searchList, countyList);
     } else if(searchList.length === 1) {
         renderMarkup(searchList, country);
+    } else if (searchList.length >=2 && searchList.length <= 10) {
+        renderMarkup(searchList, countryList);
     }
+    console.log(searchList.length)
 }
 
 function renderMarkup(countries, name) {
