@@ -11,8 +11,11 @@ const refs = REFS();
 refs.input.addEventListener('input', debounce(onSearch, 1000))
 
 function onSearch(e) {
+    // if (keySpays(e)){
+    //     return
+    // }
     e.preventDefault();
-    const searchQuery = e.target.value
+    const searchQuery = e.target.value.trim()
     hideCountryList()
 
     API.fetchCountries(searchQuery)
@@ -45,3 +48,8 @@ function renderMarkup(countries, name) {
 function hideCountryList() {
   refs.boxCountry.innerHTML = '';
 }
+
+// function keySpays(e) {
+//     if (e.target.value.which === 32) 
+//         return false;
+//   }
