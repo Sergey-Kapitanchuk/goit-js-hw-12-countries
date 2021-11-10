@@ -11,11 +11,12 @@ const refs = REFS();
 refs.input.addEventListener('input', debounce(onSearch, 1000))
 
 function onSearch(e) {
-    // if (keySpays(e)){
-    //     return
-    // }
+    
     e.preventDefault();
     const searchQuery = e.target.value.trim()
+    
+    if (!searchQuery) return;
+
     hideCountryList()
 
     API.fetchCountries(searchQuery)
